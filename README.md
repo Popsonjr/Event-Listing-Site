@@ -1,4 +1,4 @@
-# real-world-vue-3
+# Event Listing Website
 
 ## Project setup
 ```
