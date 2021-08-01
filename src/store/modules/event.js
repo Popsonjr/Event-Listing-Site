@@ -22,26 +22,60 @@ export const mutations = {
   },
 }
 export const actions = {
-  createEvent({ commit }, event) {
-    return EventService.postEvent(event).then(() => {
-      commit('ADD_EVENT', event)
-    })
+  createEvent({ commit, dispatch }, event) {
+    return EventService.postEvent(event)
+      .then(() => {
+        commit('ADD_EVENT', event)
+        const notification = {
+          type: 'primary',
+          message: 'Event created successfully!',
+        }
+        dispatch('notification/add', notification, { root: true })
+      })
+      .catch((error) => {
+        const notification = {
+          type: 'error',
+          message: 'There was a problem creating event: ' + error.message,
+        }
+        // console.log(error)
+        dispatch('notification/add', notification, { root: true })
+        throw error
+      })
   },
-  getEvent({ commit, getters }, id) {
+  getEvent({ commit, getters, dispatch }, id) {
     let event = getters.getSingleEventWIthId(id)
     if (event) {
       console.log(event)
     } else {
-      EventService.getEvent(id).then((response) => {
-        commit('SET_EVENT', response.data)
-      })
+      EventService.getEvent(id)
+        .then((response) => {
+          commit('SET_EVENT', response.data)
+        })
+        .catch((error) => {
+          const notification = {
+            type: 'error',
+            message: 'There was a problem fetching event: ' + error.message,
+          }
+          console.log(error)
+          dispatch('notification/add', notification, { root: true })
+        })
     }
   },
-  getAllEvents({ commit }, { perPage, page }) {
-    EventService.getEvents(perPage, page).then((response) => {
-      commit('SET_ALL_EVENTS', response.data)
-      commit('SET_EVENTS_TOTAL', response.headers['x-total-count'])
-    })
+  getAllEvents({ commit, dispatch }, { perPage, page }) {
+    EventService.getEvents(perPage, page)
+      .then((response) => {
+        commit('SET_ALL_EVENTS', response.data)
+        commit('SET_EVENTS_TOTAL', response.headers['x-total-count'])
+      })
+      .catch((error) => {
+        const notification = {
+          type: 'error',
+          message: 'There was a problem fetching events: ' + error.message,
+        }
+
+        dispatch('notification/add', notification, { root: true })
+        throw error
+      })
   },
 }
 export const getters = {
