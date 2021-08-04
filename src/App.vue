@@ -4,8 +4,18 @@
     <router-link :to="{ name: 'About' }">About</router-link> |
     <router-link :to="{ name: 'EventCreate' }">Create Event</router-link>
   </div>
+  <NotificationBox />
   <router-view :key="$route.fullPath" />
 </template>
+<script>
+import NotificationBox from '@/components/NotificationBox.vue'
+
+export default {
+  components: {
+    NotificationBox,
+  },
+}
+</script>
 
 <style>
 html {
@@ -89,7 +99,7 @@ small {
 .-text-base {
   color: #000;
 }
-.-text-error {
+.textError {
   color: tomato;
 }
 .-text-gray {

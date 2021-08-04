@@ -67,13 +67,16 @@ export default {
   },
   methods: {
     createEvent() {
-      this.$store.dispatch('event/createEvent', this.event).then(() => {
-        this.$router.push({
-          name: 'EventDetails',
-          params: { id: this.event.id },
+      this.$store
+        .dispatch('event/createEvent', this.event)
+        .then(() => {
+          this.$router.push({
+            name: 'EventDetails',
+            params: { id: this.event.id },
+          })
+          this.event = this.createNewEventObject()
         })
-        this.event = this.createNewEventObject
-      })
+        .catch(() => {})
     },
     createNewEventObject() {
       const id = Math.floor(Math.random() * 100000000)
