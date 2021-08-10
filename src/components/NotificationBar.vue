@@ -12,39 +12,28 @@ export default {
       type: Object,
       required: true,
     },
-    data() {
+  },
+  data() {
+    return {
+      timeout: null,
+    }
+  },
+  computed: {
+    typeClass() {
       return {
-        timeout: null,
-        isError: false,
-        isSuccess: true,
+        '-text-primary': this.notification.type === 'primary',
+        textError: this.notification.type === 'error',
       }
     },
-    mounted() {
-      this.timeout = setTimeout(() => this.remove(this.notification), 5000)
-    },
-    beforeDestroy() {
-      clearTimeout(this.timeout)
-    },
-    computed: {
-      typeClass() {
-        return {
-          '-text-primary': this.isSuccess,
-          textError: this.notification.type === 'error',
-        }
-      },
-      error() {
-        if (this.notification.type == 'error') {
-          return 'true'
-        }
-        return 'false'
-      },
-      notificationTypeClass() {
-        return `this.notification.type`
-        // return '-text-error'
-      },
-    },
-    methods: mapActions(['notification', 'remove']),
   },
+  mounted() {
+    this.timeout = setTimeout(() => this.remove(this.notification), 3000)
+  },
+  beforeUnmount() {
+    clearTimeout(this.timeout)
+  },
+
+  methods: mapActions('notification', ['remove']),
 }
 </script>
 

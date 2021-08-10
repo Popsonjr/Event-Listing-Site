@@ -9,29 +9,25 @@
       </select>
 
       <h3>Name & describe your event</h3>
+
       <div class="field">
-        <label>Title</label>
-        <input
-          v-model="event.title"
-          type="text"
-          placeholder="Add an event title"
-        />
+        <BaseInput v-model="event.title" label="Title" type="text" />
       </div>
       <div class="field">
-        <label>Description</label>
-        <input
+        <BaseInput
           v-model="event.description"
+          label="Description"
           type="text"
-          placeholder="Add a description"
         />
       </div>
 
       <h3>When is your event?</h3>
       <div class="field">
-        <label>Date</label>
+        <BaseInput v-model="event.date" label="Date" type="text" />
+        <!-- <label>Date</label> -->
         <!-- <datepicker v-model="event.date" placeholder="select a date" /> -->
         <!-- <date-pick v-model="event.date"></date-pick> -->
-        <input placeholder="12th June, 2020" type="text" v-model="event.date" />
+        <!-- <input placeholder="12th June, 2020" type="text" v-model="event.date" /> -->
       </div>
       <div class="field">
         <label>Select a time</label>
@@ -49,8 +45,10 @@
 // import Datepicker from 'vuejs-datepicker'
 // import DatePick from 'vue-date-pick'
 // import 'vue-date-pick/dist/vueDatePick.css'
+import BaseInput from '@/components/BaseInput.vue'
 export default {
   components: {
+    BaseInput,
     // Datepicker,
     // DatePick,
   },

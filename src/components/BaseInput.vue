@@ -1,15 +1,30 @@
 <template>
-    <div>
-
-    </div>
+  <label>{{ label }}</label>
+  <input
+    v-bind="$attrs"
+    :value="modelValue"
+    :placeholder="label"
+    @input="$emit('update:modelValue', $event.target.value)"
+  />
 </template>
 
 <script>
-    export default {
-        
-    }
+export default {
+  props: {
+    label: {
+      type: String,
+      default: '',
+    },
+    modelValue: {
+      type: [String, Number],
+      default: '',
+    },
+    typeDescription: {
+      type: [String],
+      default: '',
+    },
+  },
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
