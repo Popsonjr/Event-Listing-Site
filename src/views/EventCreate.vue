@@ -3,10 +3,15 @@
     <h1>Create an Event</h1>
 
     <form @submit.prevent="createEvent">
-      <label>Select a category</label>
+      <BaseSelect
+        label="Select a category"
+        :options="categories"
+        v-model="event.category"
+      />
+      <!-- <label>Select a category</label>
       <select v-model="event.category">
         <option v-for="option in categories" :key="option">{{ option }}</option>
-      </select>
+      </select> -->
 
       <h3>Name & describe your event</h3>
 
@@ -36,6 +41,30 @@
         </select>
       </div>
 
+      <h3>Extras</h3>
+      <div class="field">
+        <BaseCheckbox
+          label="Covid Compliant ?"
+          v-model="event.covidCompliant"
+        />
+      </div>
+
+      <h3>Are pets allowed ?</h3>
+      <div class="field">
+        <BaseRadioGroup
+          v-model="event.pets"
+          name="Pets"
+          :options="petOptions"
+          vertical
+        />
+      </div>
+      <!-- <div class="field">
+        <BaseRadio v-model="event.pets" :value="1" label="Yes" name="pets" />
+      </div>
+      <div class="field">
+        <BaseRadio v-model="event.pets" :value="0" label="No" name="pets" />
+      </div> -->
+
       <input type="submit" class="button -fill-gradient" value="submit" />
     </form>
   </div>
@@ -46,9 +75,17 @@
 // import DatePick from 'vue-date-pick'
 // import 'vue-date-pick/dist/vueDatePick.css'
 import BaseInput from '@/components/BaseInput.vue'
+import BaseSelect from '@/components/BaseSelect.vue'
+import BaseCheckbox from '@/components/BaseCheckbox.vue'
+// import BaseRadio from '@/components/BaseRadio.vue'
+import BaseRadioGroup from '@/components/BaseRadioGroup.vue'
 export default {
   components: {
     BaseInput,
+    BaseSelect,
+    BaseCheckbox,
+    // BaseRadio,
+    BaseRadioGroup,
     // Datepicker,
     // DatePick,
   },
@@ -61,6 +98,10 @@ export default {
       categories: this.$store.state.categories,
       event: this.createNewEventObject(),
       times,
+      petOptions: [
+        { label: 'Yes', value: 1 },
+        { label: 'No', value: 0 },
+      ],
     }
   },
   methods: {
@@ -88,6 +129,8 @@ export default {
         time: '',
         attendees: [],
         organiser: '',
+        covidCompliant: true,
+        pets: '1',
       }
     },
   },
